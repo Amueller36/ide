@@ -1,4 +1,4 @@
-package org.example.folderhandling;
+package org.example.christianFolderHandling;
 
 public class UrlEdition extends UrlHasChildParentArtifact<UrlTool, UrlVersion> {
 

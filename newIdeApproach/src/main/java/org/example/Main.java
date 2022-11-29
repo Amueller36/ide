@@ -7,7 +7,7 @@ public class Main {
     public static void main(String[] args) {
 
 
-        VSCodeCrawler crawler = new VSCodeCrawler();
+        VSCodeCrawler crawler = new VSCodeCrawler("C:\\Devon\\NewIdeMirros\\urlrepo");
         try {
             ArrayList<String> urls=crawler.doGetVersionUrls();
             crawler.doCreateFoldersForVersions(urls);
@@ -16,10 +16,5 @@ public class Main {
             e.printStackTrace();
         }
 
-       // UrlRepository andresRepo = new UrlRepository("C:\\Devon\\NewIdeMirros\\urlrepo");
-//        ArrayList<String> filenames = andresRepo.getAllFilenamesAsString();
-//        System.out.println(filenames);
-//        ArrayList<String> directories = andresRepo.getAllDirectoriesAsString();
-//        System.out.println(directories);
     }
 }

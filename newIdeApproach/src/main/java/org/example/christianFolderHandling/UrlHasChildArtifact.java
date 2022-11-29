@@ -1,11 +1,10 @@
-package org.example.folderhandling;
+package org.example.christianFolderHandling;
 
 import java.io.File;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.Map;
 
 public abstract class UrlHasChildArtifact<P ,C> extends UrlArtifact<P,C> {

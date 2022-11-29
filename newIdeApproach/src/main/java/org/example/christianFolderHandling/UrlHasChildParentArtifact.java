@@ -1,4 +1,4 @@
-package org.example.folderhandling;
+package org.example.christianFolderHandling;
 
 import java.io.File;
 import java.nio.file.Files;

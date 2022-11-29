@@ -1,4 +1,4 @@
-package org.example.folderhandling;
+package org.example.christianFolderHandling;
 import static org.junit.Assert.*;
 
 
@@ -8,7 +8,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
-import org.example.folderhandling.*;
 import org.junit.Test;
 
 /**

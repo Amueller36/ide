@@ -24,6 +24,10 @@ public class Editions extends AbstractFolder {
             return false;
         }
     }
+    public ArrayList<Versions> getAllVersionFolders() {
+        return versionFolders;
+    }
+
 
     public Versions getOrCreateFolderByName(String folderName) {
         for (Versions version : versionFolders) {

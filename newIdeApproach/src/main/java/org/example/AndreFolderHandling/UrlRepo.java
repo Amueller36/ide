@@ -2,6 +2,7 @@ package org.example.AndreFolderHandling;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 public class UrlRepo extends AbstractFolder {
@@ -24,6 +25,10 @@ public class UrlRepo extends AbstractFolder {
             e.printStackTrace();
             return false;
         }
+    }
+
+    public ArrayList<Tools> getAllToolFolders() {
+        return toolFolders;
     }
 
     public Tools getOrCreateFolderByName(String folderName) {

@@ -9,6 +9,7 @@ public class Versions extends AbstractFolder {
         super(pathToFolder);
     }
     //Hier sollten jetzt nur URL Files liegen.
+    //Eventuell Liste von URL Files?
 
     //TODO: Method to create lockfile for this version folder.
 }

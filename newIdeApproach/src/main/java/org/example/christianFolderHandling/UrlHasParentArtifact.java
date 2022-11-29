@@ -1,4 +1,4 @@
-package org.example.folderhandling;
+package org.example.christianFolderHandling;
 public abstract class UrlHasParentArtifact<P extends UrlArtifact<?, ?>, C> extends UrlArtifact<UrlArtifact<?, ?>, C> {
 	protected final P parent;
 	protected final String name;

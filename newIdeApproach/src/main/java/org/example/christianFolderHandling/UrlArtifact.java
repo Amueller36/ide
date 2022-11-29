@@ -1,10 +1,6 @@
-package org.example.folderhandling;
+package org.example.christianFolderHandling;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
-import java.util.HashMap;
-import java.util.Map;
 
 /**
  *

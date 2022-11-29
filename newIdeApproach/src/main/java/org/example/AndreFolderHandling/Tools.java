@@ -25,6 +25,10 @@ public class Tools extends AbstractFolder {
             return false;
         }
     }
+    public ArrayList<Editions> getAllEditionFolders() {
+        return editionsFolder;
+    }
+
 
     public Editions getOrCreateFolderByName(String folderName) {
         for (Editions editionFolder : editionsFolder) {
