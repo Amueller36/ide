@@ -1,8 +1,5 @@
 package org.example.crawler;
 
-import org.example.VersionWithUrls;
-import org.example.test.FilenameAndUrl;
-
 import java.io.IOException;
 import java.net.URI;
 import java.net.http.HttpClient;
@@ -130,31 +127,32 @@ public class GeneralCrawler {
         return false;
     }
 
-    private static ArrayList<VersionWithUrls> getVersionWithUrlsListFromLists(String
-                                                                                      version, List<String> windows_x64, List<String> linux_x64, List<String> mac_x64, List<String> mac_arm64) {
-        ArrayList<VersionWithUrls> versionWithUrls = new ArrayList<>();
-        FilenameAndUrl windowsx64filewithurls = new FilenameAndUrl("windows_x64", new ArrayList<>());
-        ArrayList<FilenameAndUrl> filenameAndUrls = new ArrayList<>();
-        for (String url : windows_x64) {
-            windowsx64filewithurls.urls().add(url);
-        }
-        filenameAndUrls.add(windowsx64filewithurls);
-        FilenameAndUrl linuxx64filewithurls = new FilenameAndUrl("linux_x64", new ArrayList<>());
-        for (String url : linux_x64) {
-            linuxx64filewithurls.urls().add(url);
-        }
-        filenameAndUrls.add(linuxx64filewithurls);
-        FilenameAndUrl macx64filewithurls = new FilenameAndUrl("mac_x64", new ArrayList<>());
-        for (String url : mac_x64) {
-            macx64filewithurls.urls().add(url);
-        }
-        filenameAndUrls.add(macx64filewithurls);
-        FilenameAndUrl macarm64filewithurls = new FilenameAndUrl("mac_arm64", new ArrayList<>());
-        for (String url : mac_arm64) {
-            macarm64filewithurls.urls().add(url);
-        }
-        filenameAndUrls.add(macarm64filewithurls);
-        versionWithUrls.add(new VersionWithUrls(version, filenameAndUrls));
-        return versionWithUrls;
-    }
+    //TODO FIX this
+//    private static ArrayList<VersionWithUrls> getVersionWithUrlsListFromLists(String
+//                                                                                      version, List<String> windows_x64, List<String> linux_x64, List<String> mac_x64, List<String> mac_arm64) {
+//        ArrayList<VersionWithUrls> versionWithUrls = new ArrayList<>();
+//        FilenameAndUrl windowsx64filewithurls = new FilenameAndUrl("windows_x64", new ArrayList<>());
+//        ArrayList<FilenameAndUrl> filenameAndUrls = new ArrayList<>();
+//        for (String url : windows_x64) {
+//            windowsx64filewithurls.urls().add(url);
+//        }
+//        filenameAndUrls.add(windowsx64filewithurls);
+//        FilenameAndUrl linuxx64filewithurls = new FilenameAndUrl("linux_x64", new ArrayList<>());
+//        for (String url : linux_x64) {
+//            linuxx64filewithurls.urls().add(url);
+//        }
+//        filenameAndUrls.add(linuxx64filewithurls);
+//        FilenameAndUrl macx64filewithurls = new FilenameAndUrl("mac_x64", new ArrayList<>());
+//        for (String url : mac_x64) {
+//            macx64filewithurls.urls().add(url);
+//        }
+//        filenameAndUrls.add(macx64filewithurls);
+//        FilenameAndUrl macarm64filewithurls = new FilenameAndUrl("mac_arm64", new ArrayList<>());
+//        for (String url : mac_arm64) {
+//            macarm64filewithurls.urls().add(url);
+//        }
+//        filenameAndUrls.add(macarm64filewithurls);
+//        versionWithUrls.add(new VersionWithUrls(version, filenameAndUrls));
+//        return versionWithUrls;
+//    }
 }

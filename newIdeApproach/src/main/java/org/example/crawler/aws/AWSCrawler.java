@@ -1,13 +1,15 @@
 package org.example.crawler.aws;
 
-import org.example.VersionCrawler;
-import org.example.VersionWithUrls;
+import org.example.crawler.VersionCrawler;
 import org.example.crawler.Mappings;
 import org.example.crawler.OSTypes;
+import org.example.crawler.VersionWithUrls;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import static org.example.crawler.GeneralCrawler.*;
 
@@ -23,18 +25,25 @@ public class AWSCrawler implements VersionCrawler {
     }
 
     @Override
-    public ArrayList<VersionWithUrls> doGetVersionUrls() throws IOException, InterruptedException {
+    public void doGetVersionUrls() throws IOException, InterruptedException {
         String downloadUrl = "https://awscli.amazonaws.com/${os}-${version}.${ext}";
         String versionUrl = "https://api.github.com/repos/aws/aws-cli/git/refs/tags";
         String versions = doGetResponseBody(versionUrl);
         ArrayList<String> versionList = doGetRegexMatchesAsList("refs/tags/[0-9]+.[0-9]*+.[0-9]", versions);
         versionList.replaceAll(s -> s.replace("refs/tags/", ""));
         System.out.println(versionList);
+        ArrayList<Map<String, Set<String>>> fileNameInclusiveUrlsForGivenVersion;
         versionList.forEach(version -> {
-            doGetWorkingDownloadurlsForGivenVersion
+            Map<String,Set<String>> filesWithUrls = doGetWorkingDownloadurlsForGivenVersion
                     (List.of(downloadUrl), version, mappings.releases, "", mappings.os, mappings.architecture, mappings.extension);
+            VersionWithUrls versionWithUrls = new VersionWithUrls(version, filesWithUrls);
         });
-        return null;
     }
+
+    @Override
+    public String getToolName() {
+        return "aws";
+    }
+
 }
 

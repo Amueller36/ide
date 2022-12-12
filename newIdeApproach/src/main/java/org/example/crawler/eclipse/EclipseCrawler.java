@@ -1,37 +1,30 @@
 package org.example.crawler.eclipse;
 
-import org.example.AndreFolderHandling.Editions;
-import org.example.AndreFolderHandling.Tools;
-import org.example.AndreFolderHandling.UrlRepo;
-import org.example.VersionCrawler;
-import org.example.VersionWithUrls;
-import org.example.crawler.GeneralCrawler;
-import org.example.crawler.Mappings;
-import org.example.crawler.OSTypes;
+
+import org.example.ChristianFolderHandling.*;
+import org.example.crawler.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
-import static org.example.Main.logger;
-
 
 public class EclipseCrawler implements VersionCrawler {
-    private UrlRepo urlRepo;
-    private Tools toolsFolder;
-    private Editions editionsFolder;
+
     private Mappings mappings;
     private ArrayList<String> editions = new ArrayList<>();
+    private UrlRepository urlRepository;
+    private UrlTool toolFolder;
 
-    public EclipseCrawler() {
+    public EclipseCrawler(UrlRepository urlRepo) {
         this.mappings = new Mappings();
         mappings.os.put(OSTypes.WINDOWS, "win32");
         mappings.os.put(OSTypes.MAC, "macosx-cocoa");
         mappings.os.put(OSTypes.LINUX, "linux-gtk");
-        mappings.extension.put(OSTypes.WINDOWS,"zip");
-        mappings.extension.put(OSTypes.MAC,"dmg");
-        mappings.extension.put(OSTypes.LINUX,"tar.gz");
+        mappings.extension.put(OSTypes.WINDOWS, "zip");
+        mappings.extension.put(OSTypes.MAC, "dmg");
+        mappings.extension.put(OSTypes.LINUX, "tar.gz");
         mappings.architecture.put("default", "x86_64");
         mappings.architecture.put("arm64", "aarch64");
         mappings.releases.add("R");
@@ -40,27 +33,43 @@ public class EclipseCrawler implements VersionCrawler {
         mappings.releases.add("M3");
         mappings.releases.add("RC1");
         editions.add("java"); // TODO: Get Editions from Folders instead of hardcoding them
+        this.urlRepository = urlRepo;
+        toolFolder = urlRepo.getOrCreateChild(getToolName());
+    }
+
+    @Override
+    public String getToolName() {
+        return "Eclipse";
     }
 
 
     @Override
-    public ArrayList<VersionWithUrls> doGetVersionUrls() throws IOException, InterruptedException {
+    public void doGetVersionUrls() throws IOException, InterruptedException {
         String eclipseUrl = "https://www.eclipse.org/downloads/packages/release";
         String responseBody = GeneralCrawler.doGetResponseBody(eclipseUrl);
         ArrayList<String> versions = GeneralCrawler.doGetRegexMatchesAsList("\\d{4}-\\d{2}", responseBody);
         ArrayList<String> downloadUrls = new ArrayList<String>();
-        downloadUrls.add("https://ftp.snt.utwente.nl/pub/software/eclipse/technology/epp/downloads/release/${version}/${release}/eclipse-${edition}-${version}-${release}-${os}-${arch}$.{ext}");
-        downloadUrls.add("https://archive.eclipse.org/technology/epp/downloads/release/${version}/${release}/eclipse-${edition}-${version}-${release}-${os}-${arch}$.{ext}");
-        downloadUrls.add("https://ftp.osuosl.org/pub/eclipse/technology/epp/downloads/release/${version}/${release}/eclipse-${edition}-${version}-${release}-${os}-${arch}$.{ext}");
+        downloadUrls.add("https://ftp.snt.utwente.nl/pub/software/eclipse/technology/epp/downloads/release/${version}/${release}/eclipse-${edition}-${version}-${release}-${os}-${arch}.${ext}");
+        downloadUrls.add("https://archive.eclipse.org/technology/epp/downloads/release/${version}/${release}/eclipse-${edition}-${version}-${release}-${os}-${arch}.${ext}");
+        downloadUrls.add("https://ftp.osuosl.org/pub/eclipse/technology/epp/downloads/release/${version}/${release}/eclipse-${edition}-${version}-${release}-${os}-${arch}.${ext}");
 
         ArrayList<VersionWithUrls> versionWithUrls = new ArrayList<VersionWithUrls>();
         for (String version : versions) {
-            for(String edition : editions){
-                Map<String, Set<String>> versionWithUrlFiles = GeneralCrawler.doGetWorkingDownloadurlsForGivenVersion(downloadUrls, version, mappings.releases, edition, this.mappings.os, mappings.architecture, mappings.extension);
-                //TODO: Handle different edition folarm64s
-                            }
+            for (String edition : editions) {
+                Map<String, Set<String>> fileNamesWithUrls = GeneralCrawler.doGetWorkingDownloadurlsForGivenVersion(downloadUrls, version, mappings.releases, edition, this.mappings.os, mappings.architecture, mappings.extension);
+                UrlEdition editionFolder = toolFolder.getOrCreateChild(edition);
+                UrlVersion versionFolder = editionFolder.getOrCreateChild(version);
+                VersionWithUrls versionInclusiveUrlsAsString = new VersionWithUrls(version, fileNamesWithUrls);
+                //Iterate over fileNamesWithUrls and add them to the versionFolder
+                for (Map.Entry<String, Set<String>> entry : fileNamesWithUrls.entrySet()) {
+                    String fileName = entry.getKey();
+                    Set<String> urls = entry.getValue();
+                    UrlFile file = versionFolder.getOrCreateChild(fileName);
+                    file.addToObjectsList(urls);
+                    file.saveListFromObjectIntoFile();
+                }
+            }
         }
-        return null;
 
     }
 
