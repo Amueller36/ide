@@ -73,14 +73,14 @@ public class UrlEditor {
 		}
 	}
 
-	public void createFile(String Tool, String Edition, String Version, String os) {
-		urlRepoObject.getOrCreateChild(Tool).getOrCreateChild(Edition).getOrCreateChild(Version).getOrCreateChild(os + ".urls");
-		File f = new File(repoPath + File.separator + Tool + File.separator + Edition + File.separator + Version + File.separator + os + ".urls");
+	public void createFile(String Tool, String Edition, String Version, String fileName) {
+		File f = new File(repoPath + File.separator + Tool + File.separator + Edition + File.separator + Version + File.separator + fileName + ".urls");
 		try {
 			f.createNewFile();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		urlRepoObject.getOrCreateChild(Tool).getOrCreateChild(Edition).getOrCreateChild(Version).getOrCreateChild(fileName + ".urls");
 	}
 
 	public void createFile(String Tool, String Edition, String Version, String os, String arch) {

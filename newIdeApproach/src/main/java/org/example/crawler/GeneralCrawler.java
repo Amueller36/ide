@@ -98,7 +98,7 @@ public class GeneralCrawler {
                         combination = sb.toString();
                         if (doCheckIfDownloadUrlWorks(combination)) {
                             logger.info("Found working URL for ARCH " + o + arch + combination);
-                            String osAndArch = oskey + "_" + arch;
+                            String osAndArch = oskey + "_" + archkey;
                             Set<String> urlsForOsAndArch = createUrlsForOsAndArch(urlsByOsAndArch, osAndArch);
                             urlsForOsAndArch.add(combination);
                         }

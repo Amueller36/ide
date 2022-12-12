@@ -14,10 +14,10 @@ public class EclipseCrawler implements VersionCrawler {
 
     private Mappings mappings;
     private ArrayList<String> editions = new ArrayList<>();
-    private UrlRepository urlRepository;
+    private UrlEditor urlEditor;
     private UrlTool toolFolder;
 
-    public EclipseCrawler(UrlRepository urlRepo) {
+    public EclipseCrawler(UrlEditor urlEditor) {
         this.mappings = new Mappings();
         mappings.os.put(OSTypes.WINDOWS, "win32");
         mappings.os.put(OSTypes.MAC, "macosx-cocoa");
@@ -25,7 +25,7 @@ public class EclipseCrawler implements VersionCrawler {
         mappings.extension.put(OSTypes.WINDOWS, "zip");
         mappings.extension.put(OSTypes.MAC, "dmg");
         mappings.extension.put(OSTypes.LINUX, "tar.gz");
-        mappings.architecture.put("default", "x86_64");
+        mappings.architecture.put("x64", "x86_64");
         mappings.architecture.put("arm64", "aarch64");
         mappings.releases.add("R");
         mappings.releases.add("M1");
@@ -33,8 +33,7 @@ public class EclipseCrawler implements VersionCrawler {
         mappings.releases.add("M3");
         mappings.releases.add("RC1");
         editions.add("java"); // TODO: Get Editions from Folders instead of hardcoding them
-        this.urlRepository = urlRepo;
-        toolFolder = urlRepo.getOrCreateChild(getToolName());
+        this.urlEditor= urlEditor;
     }
 
     @Override
@@ -57,16 +56,15 @@ public class EclipseCrawler implements VersionCrawler {
         for (String version : versions) {
             for (String edition : editions) {
                 Map<String, Set<String>> fileNamesWithUrls = GeneralCrawler.doGetWorkingDownloadurlsForGivenVersion(downloadUrls, version, mappings.releases, edition, this.mappings.os, mappings.architecture, mappings.extension);
-                UrlEdition editionFolder = toolFolder.getOrCreateChild(edition);
-                UrlVersion versionFolder = editionFolder.getOrCreateChild(version);
-                VersionWithUrls versionInclusiveUrlsAsString = new VersionWithUrls(version, fileNamesWithUrls);
                 //Iterate over fileNamesWithUrls and add them to the versionFolder
                 for (Map.Entry<String, Set<String>> entry : fileNamesWithUrls.entrySet()) {
                     String fileName = entry.getKey();
                     Set<String> urls = entry.getValue();
-                    UrlFile file = versionFolder.getOrCreateChild(fileName);
-                    file.addToObjectsList(urls);
-                    file.saveListFromObjectIntoFile();
+                    urlEditor.createFolder(getToolName(),edition,version);
+                    urlEditor.createFile(getToolName(),edition,version,fileName);
+                    UrlFile file = urlEditor.getFile(getToolName(),edition,version,fileName);
+                    urlEditor.addUrls(urls,file);
+
                 }
             }
         }
