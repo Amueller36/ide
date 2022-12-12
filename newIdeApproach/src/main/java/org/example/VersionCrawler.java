@@ -4,5 +4,5 @@ import java.io.IOException;
 import java.util.ArrayList;
 
 public interface VersionCrawler {
-     ArrayList<String> doGetVersionUrls() throws IOException, InterruptedException;
+     ArrayList<VersionWithUrls> doGetVersionUrls() throws IOException, InterruptedException;
 }

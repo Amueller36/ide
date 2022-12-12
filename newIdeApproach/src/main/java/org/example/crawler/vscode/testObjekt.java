@@ -1,4 +1,4 @@
-package org.example.vscode;
+package org.example.crawler.vscode;
 
 public class testObjekt {
     public String sha;
